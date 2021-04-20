@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: ${PG_IMAGE}
+    container_name: ${PG_NAME}
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USER}
+    volumes:
+      - postgresvolume:/var/lib/postgresql/data
+    ports:
+      - "${PG_PORT}:5432"
+    networks:
+      - pg-network
+    restart: unless-stopped
+
+  pgadmin:
+    image: ${PG_ADM_IMAGE}
+    container_name: ${PG_ADM_NAME}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADM_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADM_PASSWORD}
+    volumes:
+       - pgadminvolume:/var/lib/pgadmin
+    ports:
+      - "${PG_ADM_PORT}:80"
+    networks:
+      - pg-network
+    restart: unless-stopped
+
+volumes:
+  postgresvolume:
+  pgadminvolume:
+
+networks:
+  pg-network:

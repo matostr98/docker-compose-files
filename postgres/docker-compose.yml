@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+
+  postgres:
+    image: ${PG_IMAGE}
+    container_name: ${PG_NAME}
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USER}
+    volumes:
+      - postgresvolume:/var/lib/postgresql/data
+    ports:
+      - "${PG_PORT}:5432"
+    restart: unless-stopped
+
+volumes:
+  postgresvolume:
